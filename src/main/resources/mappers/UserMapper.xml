@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhp.studybbs.mappers.UserMapper">
+<select id="selectUserByEmail" resultType="com.yhp.studybbs.entities.UserEntity">
+    SELECT email                AS `email`,
+           password             AS `password`,
+           nickname             AS `nickname`,
+           name                 AS `name;`,
+           contact_company_code AS `contactCompanyCode`,
+           contact_first        AS `contactFirst`,
+           contact_second       AS `contactSecond`,
+           contact_third        AS `contactThird`,
+           address_postal       AS `addressPostal`,
+           address_primary      AS `addressPrimary`,
+           address_secondary    AS `addressSecondary`,
+           admin_flag           AS `isAdmin`,
+    deleted_flag    AS isDeleted ,
+    suspended_flag  AS isSuspended ,
+    registered_at  AS registeredAt ,
+    term_policy_at AS termPolicyAt ,
+    term_privacy_at AS termPrivacyAt ,
+    term_marketing_at  AS termMarketingAt
+    FROM `study_bbs`.`users`
+    WHERE BINARY `email` = #{email}
+    LIMIT 1
+</select>
+<insert id="insertEmailAuth" parameterType="com.yhp.studybbs.entities.EmailAuthEntity">
+    INSERT INTO `study_bbs`.`email_auths`
+    (email,
+     code,
+     salt,
+     verified_flag,
+     created_at,
+     expires_at)
+    VALUES (#{email},
+            #{code}, #{salt}, #{isVerified}, #{expiresAt}, #{expiresAt})
+</insert>
+</mapper>
